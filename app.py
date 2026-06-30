@@ -2,8 +2,8 @@ from flask import Flask, render_template, request
 from utils.api_fetch import get_live_data, get_aqi_forecast
 from utils.predictor import predict_aqi_trend, ml_predict_aqi
 from utils.alert_system import asthma_alert, send_whatsapp_alert
-from report_generator import generate_detailed_report
-from health_risk import calculate_health_risks
+from utils.report_generator import generate_detailed_report
+from utils.health_risk import calculate_health_risks
 import time
 
 city_map_cache = None
