@@ -1,0 +1,218 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+color:white;
+background:#04070d;
+overflow-x:hidden;
+}
+
+/* 🌍 VANTA BACKGROUND (ONLY HERO) */
+#vanta-bg{
+height:100vh;
+width:100%;
+position:relative;
+}
+
+/* HERO */
+.hero{
+min-height:100vh;
+display:flex;
+justify-content:space-between;
+align-items:center;   /* 🔥 THIS CENTERS VERTICALLY */
+padding:80px;
+gap:60px;
+}
+
+.left-panel{
+max-width:600px;
+}
+
+.mini-label{
+letter-spacing:2px;
+font-size:0.9rem;
+text-transform:uppercase;
+color:#8dd6e8;
+margin-bottom:20px;
+}
+
+.hero-title{
+font-size:6rem;
+font-weight:800;
+margin-bottom:25px;
+letter-spacing:-3px;
+}
+
+.hero-subtitle{
+font-size:1.2rem;
+line-height:1.9;
+color:#d8e6f0;
+margin-bottom:35px;
+}
+
+/* FORM */
+.city-form{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+}
+
+select,button{
+padding:16px 20px;
+border:none;
+border-radius:18px;
+font-size:1rem;
+}
+
+select{
+background:rgba(255,255,255,0.08);
+color:white;
+}
+
+button{
+background:white;
+color:black;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+/* RIGHT PANEL */
+.right-panel{
+width:360px;
+}
+
+.glass-card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:28px;
+padding:30px;
+box-shadow:0 20px 50px rgba(0,0,0,0.35);
+}
+
+/* METRICS */
+.metric{
+display:flex;
+justify-content:space-between;
+padding:16px 0;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.metric:last-child{
+border-bottom:none;
+}
+
+.highlight{
+color:#8fffe0;
+font-weight:600;
+}
+
+/* GRAPH */
+.graph-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.06);
+border-radius:24px;
+padding:25px;
+margin-top:25px;
+}
+
+/* REPORT SECTION */
+.report-section{
+padding:80px;
+background:#050b12;
+}
+
+.section-title{
+font-size:2.5rem;
+margin-bottom:40px;
+}
+
+/* GRID */
+.report-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+max-width:1400px;
+margin:auto;
+}
+
+/* CARDS */
+.report-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.06);
+border-radius:24px;
+padding:30px;
+backdrop-filter:blur(10px);
+transition:0.3s;
+}
+
+.report-card:hover{
+transform:translateY(-5px);
+box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.full-width{
+grid-column:span 2;
+}
+
+/* REPORT BOXES */
+.report-section-box{
+margin-bottom:20px;
+padding:18px;
+background:rgba(255,255,255,0.03);
+border-radius:14px;
+}
+
+/* HEALTH RISKS */
+.risk-item{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+/* MAP */
+#aqiMap{
+height:500px;
+width:100%;
+border-radius:20px;
+margin-top:20px;
+}
+
+.report-section-box{
+margin-bottom:20px;
+padding:18px;
+background:rgba(255,255,255,0.03);
+border-radius:14px;
+border:1px solid rgba(255,255,255,0.05);
+}
+
+.report-section-box h4{
+margin-bottom:10px;
+color:#9de8ff;
+}
+
+.report-section-box p,
+.report-section-box ul{
+line-height:1.7;
+color:#dce8f4;
+}
+
+.metric span:last-child{
+font-weight:600;
+color:#8fffe0;
+}
+
+.right-panel{
+width:360px;
+margin-top:-40px;   /* 🔥 pulls it slightly up */
+}

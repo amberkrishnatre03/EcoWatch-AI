@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>EcoWatch AI</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+
+</head>
+
+<body>
+
+<!-- 🌍 HERO ONLY -->
+<div id="vanta-bg">
+<section class="hero">
+
+<div class="left-panel">
+<p class="mini-label">Environmental Intelligence Platform</p>
+
+<h1 class="hero-title">EcoWatch AI</h1>
+
+<p class="hero-subtitle">
+Predicting tomorrow’s environmental risks today through intelligent climate forecasting,
+health analytics, and real-time atmospheric intelligence.
+</p>
+
+<form method="POST" class="city-form">
+
+<select name="city">
+<option value="New Delhi" {% if city == "New Delhi" %}selected{% endif %}>New Delhi</option>
+<option value="Gurgaon" {% if city == "Gurgaon" %}selected{% endif %}>Gurgaon</option>
+<option value="Noida" {% if city == "Noida" %}selected{% endif %}>Noida</option>
+<option value="Ghaziabad" {% if city == "Ghaziabad" %}selected{% endif %}>Ghaziabad</option>
+<option value="Meerut" {% if city == "Meerut" %}selected{% endif %}>Meerut</option>
+<option value="Jaipur" {% if city == "Jaipur" %}selected{% endif %}>Jaipur</option>
+<option value="Chandigarh" {% if city == "Chandigarh" %}selected{% endif %}>Chandigarh</option>
+<option value="Mumbai" {% if city == "Mumbai" %}selected{% endif %}>Mumbai</option>
+<option value="Pune" {% if city == "Pune" %}selected{% endif %}>Pune</option>
+<option value="Ahmedabad" {% if city == "Ahmedabad" %}selected{% endif %}>Ahmedabad</option>
+<option value="Bangalore" {% if city == "Bangalore" %}selected{% endif %}>Bangalore</option>
+<option value="Chennai" {% if city == "Chennai" %}selected{% endif %}>Chennai</option>
+<option value="Hyderabad" {% if city == "Hyderabad" %}selected{% endif %}>Hyderabad</option>
+<option value="Kochi" {% if city == "Kochi" %}selected{% endif %}>Kochi</option>
+<option value="Kolkata" {% if city == "Kolkata" %}selected{% endif %}>Kolkata</option>
+<option value="Bhubaneswar" {% if city == "Bhubaneswar" %}selected{% endif %}>Bhubaneswar</option>
+<option value="Bhopal" {% if city == "Bhopal" %}selected{% endif %}>Bhopal</option>
+<option value="Lucknow" {% if city == "Lucknow" %}selected{% endif %}>Lucknow</option>
+<option value="Indore" {% if city == "Indore" %}selected{% endif %}>Indore</option>
+<option value="Patna" {% if city == "Patna" %}selected{% endif %}>Patna</option>
+</select>
+
+<button type="submit">Analyze City</button>
+
+</form>
+</div>
+
+<div class="right-panel glass-card">
+
+
+<h3>Live AQI Intelligence</h3>
+
+<div class="metric"><span>AQI Index</span><span>{{ data.aqi }}</span></div>
+<div class="metric"><span>Temperature</span><span>{{ data.temperature }}°C</span></div>
+<div class="metric"><span>Humidity</span><span>{{ data.humidity }}%</span></div>
+<div class="metric"><span>Wind Speed</span><span>{{ data.wind_speed }} m/s</span></div>
+
+<div class="metric highlight">
+<span>ML Forecast</span>
+<span>{{ ml_prediction }}</span>
+</div>
+
+<!-- 🔥 ADD HERE (AFTER ML FORECAST) -->
+
+<div class="metric">
+<span>Heat Risk</span>
+<span>{{ heat_risk }}</span>
+</div>
+
+<div class="metric">
+<span>Rain Prediction</span>
+<span>{{ rain_prediction }}</span>
+</div>
+
+<!-- GRAPH -->
+<div class="graph-card">
+<h3>AQI Trend Forecast</h3>
+<canvas id="aqiChart"></canvas>
+</div>
+
+</div>
+
+
+</section>
+</div>
+
+<!-- REPORT SECTION -->
+<section class="report-section">
+
+<h2 class="section-title">Environmental Intelligence Report</h2>
+
+<div class="report-grid">
+
+<div class="report-card">
+<h3>Environmental Summary</h3>
+<p>AQI: {{ data.aqi }} | Temperature: {{ data.temperature }}°C | Humidity: {{ data.humidity }}%</p>
+</div>
+
+<div class="report-card">
+<h3>Medical Advisory</h3>
+<p>{{ alert }}</p>
+</div>
+
+<div class="report-card">
+<h3>Weather Hazard Assessment</h3>
+<p>Wind Speed: {{ data.wind_speed }} m/s</p>
+</div>
+
+<div class="report-card">
+<h3>AI Forecast Prediction</h3>
+<p>{{ prediction }}</p>
+</div>
+
+
+
+<!-- AI REPORT -->
+<div class="report-card full-width">
+<h3>AI Intelligence Report</h3>
+
+<div class="report-section-box">
+<h4>🌫 Air Quality Insight</h4>
+<p>
+Current AQI is <b>{{ data.aqi }}</b>, indicating
+<b>{{ severity_badge }} pollution conditions</b>.
+Air quality is impacting atmospheric safety levels.
+</p>
+</div>
+
+<div class="report-section-box">
+<h4>🌡 Environmental Analysis</h4>
+<p>
+Temperature is <b>{{ data.temperature }}°C</b> with
+<b>{{ data.humidity }}%</b> humidity and
+wind speed of <b>{{ data.wind_speed }} m/s</b>.
+These conditions contribute to pollutant concentration.
+</p>
+</div>
+
+<div class="report-section-box">
+<h4>🧠 AI Prediction Model</h4>
+<p>
+{{ prediction }}
+The system predicts near-term AQI variation based on current atmospheric stability.
+</p>
+</div>
+
+<div class="report-section-box">
+<h4>⚠ Health Impact</h4>
+<p>
+{{ alert }}
+Sensitive groups including asthma and heart patients are at elevated risk.
+</p>
+</div>
+
+<div class="report-section-box">
+<h4>📊 Risk Outlook</h4>
+<p>
+If wind conditions remain low, pollution levels may
+<b>increase in the next few hours</b>.
+Continuous monitoring is advised.
+</p>
+</div>
+
+<div class="report-section-box">
+<h4>🛡 Recommended Actions</h4>
+<ul>
+<li>Limit outdoor exposure</li>
+<li>Use N95 mask in polluted zones</li>
+<li>Avoid peak traffic hours</li>
+<li>Maintain indoor air quality</li>
+</ul>
+</div>
+
+</div>
+
+<!-- HEATMAP -->
+<div class="report-card full-width">
+<h3>India Live AQI Heatmap</h3>
+<div id="aqiMap"></div>
+</div>
+
+</div>
+
+</section>
+
+<!-- VANTA -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  VANTA.GLOBE({
+    el: "#vanta-bg",
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: false,
+    color: 0x00d9ff,
+    backgroundColor: 0x04070d,
+    scale: 1.5
+  });
+});
+</script>
+
+<!-- GRAPH -->
+<script>
+const ctx = document.getElementById('aqiChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['1h','2h','3h','4h','5h','6h','7h','8h'],
+        datasets: [{
+            label: 'AQI Forecast',
+            data: {{ aqi_forecast|tojson }},
+            tension: 0.4,
+            fill: true,
+            borderColor: '#00d9ff',
+            backgroundColor: 'rgba(0,217,255,0.08)'
+        }]
+    }
+});
+</script>
+
+<!-- HEATMAP -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    var map = L.map('aqiMap').setView([22.9734, 78.6569], 5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var cityData = {{ city_map_data | tojson }};
+
+    cityData.forEach(city => {
+        let color;
+
+        if (city.aqi <= 50) color = "green";
+        else if (city.aqi <= 100) color = "yellow";
+        else if (city.aqi <= 200) color = "orange";
+        else color = "red";
+
+        L.circleMarker([city.lat, city.lon], {
+            radius: 10,
+            fillColor: color,
+            color: color,
+            fillOpacity: 0.8
+        })
+        .addTo(map)
+        .bindPopup(`<b>${city.name}</b><br>AQI: ${city.aqi}`);
+    });
+
+});
+</script>
+
+</body>
+</html>
